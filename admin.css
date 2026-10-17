@@ -1,0 +1,15 @@
+.admin-layout { padding-top: 48px; padding-bottom: 72px; }
+.admin-layout h1 { margin-bottom: 12px; }
+.admin-layout .info { margin: 20px 0; }
+.admin-layout input, .admin-layout select, .admin-layout textarea { width: 100%; padding: 11px; border: 1px solid #aab9c2; border-radius: 8px; font: inherit; }
+.admin-form { display: grid; gap: 18px; max-width: 950px; }
+.admin-form label { display: grid; gap: 7px; font-weight: 600; }
+.admin-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 15px; }
+.admin-actions, .admin-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.admin-actions { justify-content: flex-start; }
+.admin-row { padding: 15px 0; border-bottom: 1px solid #d6e0e6; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.admin-row p { margin: 4px 0; }
+.admin-row .admin-actions button { padding: 8px 14px; }
+#message { margin: 20px 0; white-space: pre-wrap; }
+[hidden] { display: none !important; }
+@media (max-width: 650px) { .admin-grid { grid-template-columns: 1fr; } }
