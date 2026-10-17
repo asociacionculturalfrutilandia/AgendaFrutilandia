@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#142c40" name="theme-color"/>
+  <meta content="Frutilandia: agenda cultural de Murcia y el sureste. Descubre música, teatro, fiestas y actividades en el mapa." name="description"/>
+  <title>
+   Frutilandia | Agenda cultural del sureste
+  </title>
+  <link href="https://unpkg.com" rel="preconnect"/>
+  <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header class="top">
+   <div class="wrap top-inner">
+    <a class="brand" href="#inicio">
+     Fruti
+     <span>
+      landia
+     </span>
+     <small>
+      Agenda cultural del sureste
+     </small>
+    </a>
+    <nav aria-label="Navegación principal">
+     <a href="#agenda">
+      Agenda
+     </a>
+     <a href="#mapa">
+      Mapa
+     </a>
+     <a href="#asociacion">
+      Asociación
+     </a>
+     <a href="#socios">
+      Socios y donaciones
+     </a>
+     <a href="admin.html">Administración</a>
+     <a href="#contacto">
+      Contacto
+     </a>
+    </nav>
+   </div>
+  </header>
+  <main>
+   <section class="hero" id="inicio">
+    <div class="wrap hero-inner">
+     <div>
+      <div class="eyebrow">
+       Murcia · Vega Baja · Albacete · Almería
+      </div>
+      <h1>
+       La cultura
+       <em>
+        se vive
+       </em>
+       cerca de ti.
+      </h1>
+      <p>
+       Conciertos, teatro, fiestas populares y propuestas culturales de la Región de Murcia y comarcas vecinas. Encuentra tu próximo plan en un solo lugar.
+      </p>
+      <div class="hero-actions">
+       <a class="btn coral" href="#agenda">
+        Explorar agenda ↗
+       </a>
+       <a class="btn light" href="#mapa">
+        Ver mapa de eventos
+       </a>
+      </div>
+      <div style="margin-top:24px">
+       <span class="chip">
+        ♫ Música
+       </span>
+       <span class="chip">
+        ◈ Teatro
+       </span>
+       <span class="chip">
+        ✺ Fiestas
+       </span>
+       <span class="chip">
+        ▣ Patrimonio
+       </span>
+      </div>
+     </div>
+     <div aria-hidden="true" class="hero-art">
+      <div class="sun">
+       <svg fill="none" viewbox="0 0 250 250">
+        <path d="M20 190L58 123L91 156L133 69L169 132L204 91L238 190Z" fill="#fff5d7">
+        </path>
+        <path d="M30 190H225" stroke="#163f50" stroke-linecap="round" stroke-width="8">
+        </path>
+        <path d="M89 188V143L125 122L160 143V188" stroke="#163f50" stroke-linejoin="round" stroke-width="8">
+        </path>
+        <path d="M108 188V155H142V188" stroke="#163f50" stroke-width="7">
+        </path>
+        <path d="M53 106V63M43 73H72M187 61V30M176 41H200" stroke="#fff" stroke-linecap="round" stroke-width="8">
+        </path>
+        <path d="M79 45L93 24M166 36L153 18" stroke="#fff" stroke-linecap="round" stroke-width="6">
+        </path>
+       </svg>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="agenda">
+    <div class="wrap">
+     <h2>
+      Agenda cultural
+     </h2>
+     <p class="sub">
+      Busca por fecha, localidad o tipo de actividad. <span id="agenda-note">Los eventos incluidos inicialmente son ejemplos de demostración, no convocatorias verificadas.</span>
+     </p>
+     <div class="filter-panel">
+      <div class="filters">
+       <div class="field">
+        <label for="q">
+         Buscar evento o municipio
+        </label>
+        <input id="q" placeholder="Ej. Cartagena, jazz, teatro..."/>
+       </div>
+       <div class="field">
+        <label for="area">
+         Zona
+        </label>
+        <select id="area">
+         <option value="">
+          Todas las zonas
+         </option>
+         <option>
+          Región de Murcia
+         </option>
+         <option>
+          Vega Baja
+         </option>
+         <option>
+          Sureste de Albacete
+         </option>
+         <option>
+          Noreste de Almería
+         </option>
+        </select>
+       </div>
+       <div class="field">
+        <label for="category">
+         Categoría
+        </label>
+        <select id="category">
+         <option value="">
+          Todas
+         </option>
+         <option>
+          Música
+         </option>
+         <option>
+          Teatro
+         </option>
+         <option>
+          Fiestas
+         </option>
+         <option>
+          Patrimonio
+         </option>
+         <option>
+          Otros
+         </option>
+        </select>
+       </div>
+       <div class="field">
+        <label for="date">
+         Fecha
+        </label>
+        <input id="date" type="date"/>
+       </div>
+      </div>
+      <div class="quick">
+       <button class="pill active" data-when="all">
+        Todas
+       </button>
+       <button class="pill" data-when="today">
+        Hoy
+       </button>
+       <button class="pill" data-when="tomorrow">
+        Mañana
+       </button>
+       <button class="pill" data-when="weekend">
+        Fin de semana
+       </button>
+       <button class="pill" id="clear">
+        Limpiar filtros
+       </button>
+      </div>
+     </div>
+     <div class="results-header">
+      <h3 id="count">
+       Eventos
+      </h3>
+      <span style="color:var(--muted);font-size:.86rem">
+       <span id="agenda-label">Agenda de demostración</span>
+      </span>
+     </div>
+     <div aria-live="polite" class="cards" id="cards">
+     </div>
+    </div>
+   </section>
+   <section class="section soft" id="mapa">
+    <div class="wrap">
+     <h2>
+      La cultura en el mapa
+     </h2>
+     <p class="sub">
+      Selecciona un marcador para consultar la actividad. El mapa refleja los filtros de la agenda.
+     </p>
+     <div class="map-grid">
+      <div class="mapbox">
+       <div aria-label="Mapa interactivo de eventos culturales" id="map" role="application">
+       </div>
+      </div>
+      <aside class="aside">
+       <h3>
+        Explora el territorio
+       </h3>
+       <p>
+        Desde las plazas de Murcia hasta los escenarios de Cartagena, Orihuela, Hellín y Vera: descubre la actividad cultural de nuestro entorno.
+       </p>
+       <p>
+        <strong id="map-count">
+         0
+        </strong>
+        eventos visibles en el mapa.
+       </p>
+       <div class="calendar-row">
+        <label for="map-date">
+         <strong>
+          Ir a una fecha
+         </strong>
+        </label>
+        <input id="map-date" type="date"/>
+        <button class="btn" id="map-date-button">
+         Buscar
+        </button>
+       </div>
+       <p style="font-size:.83rem">
+        Mapa de OpenStreetMap. Requiere conexión a Internet.
+       </p>
+      </aside>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="asociacion">
+    <div class="wrap">
+     <h2>
+      La asociación
+     </h2>
+     <p class="sub">
+      Cultura local, participación y conexión entre territorios.
+     </p>
+     <div class="two">
+      <article class="info">
+       <h3>
+        ¿Qué es Frutilandia?
+       </h3>
+       <p>
+        Somos una asociación cultural sin ánimo de lucro que quiere dar visibilidad a los eventos y actividades culturales de la Región de Murcia y territorios próximos.
+       </p>
+       <p>
+        Reunimos en una misma agenda música, teatro, fiestas locales y otras expresiones culturales para facilitar su descubrimiento.
+       </p>
+      </article>
+      <article class="info">
+       <h3>
+        ¿Qué zonas cubrimos?
+       </h3>
+       <p>
+        Región de Murcia, Vega Baja del Segura, sureste de la provincia de Albacete y noreste de Almería.
+       </p>
+       <p>
+        Queremos hacer más accesible la información cultural tanto de grandes ciudades como de pueblos, barrios y pedanías.
+       </p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section class="section soft" id="socios">
+    <div class="wrap">
+     <h2>
+      Socios y donaciones
+     </h2>
+     <p class="sub">
+      La colaboración de los socios ayuda a sostener la agenda cultural.
+     </p>
+     <div class="two">
+      <article class="info">
+       <h3>
+        Área de socios
+       </h3>
+       <p>
+        En la siguiente fase se habilitará el registro, acceso privado y gestión de los datos de cada socio.
+       </p>
+       <div class="notice">
+        <strong>
+         Próximamente.
+        </strong>
+        El acceso real está desactivado hasta configurar un proveedor seguro de autenticación y una política de privacidad.
+       </div>
+       <button aria-disabled="true" class="btn light" disabled="" style="margin-top:18px">
+        Acceso de socios (pendiente)
+       </button>
+      </article>
+      <article class="info">
+       <h3>
+        Donación semestral
+       </h3>
+       <p>
+        El proyecto se financia mediante aportaciones semestrales de los socios. Próximamente se podrá realizar el pago desde una pasarela segura.
+       </p>
+       <div class="notice">
+        <strong>
+         Pagos no activados.
+        </strong>
+        No introduzcas datos bancarios en esta demostración. No se realiza ningún cobro.
+       </div>
+       <button aria-disabled="true" class="btn coral" disabled="" style="margin-top:18px">
+        Donar de forma segura (pendiente)
+       </button>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section class="section" id="contacto">
+    <div class="wrap">
+     <h2>
+      Contacto
+     </h2>
+     <p class="sub">
+      ¿Organizas un evento cultural? ¿Quieres colaborar con la agenda?
+     </p>
+     <div class="info">
+      <h3>
+       Hablemos de cultura
+      </h3>
+      <p>
+       Esta primera versión no publica todavía un correo ni redes sociales oficiales. Cuando nos facilites los datos de contacto de la asociación, los añadiremos aquí.
+      </p>
+      <p>
+       También podemos incorporar un formulario para proponer eventos, con revisión previa antes de publicarlos.
+      </p>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer class="foot">
+   <div class="wrap">
+    <div>
+     <strong>
+      Frutilandia
+     </strong>
+     <br/>
+     <small>
+      Asociación cultural sin ánimo de lucro · Región de Murcia y alrededores
+     </small>
+    </div>
+    <small>
+     Prototipo funcional · Eventos ficticios de muestra · Aviso legal y privacidad pendientes de completar
+    </small>
+   </div>
+  </footer>
+  <script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+  </script>
+  <script type="module" src="js/app.js">
+  </script>
+ </body>
+</html>
+
