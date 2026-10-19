@@ -291,39 +291,26 @@
       La colaboración de los socios ayuda a sostener la agenda cultural.
      </p>
      <div class="two">
-      <article class="info">
-       <h3>
-        Área de socios
-       </h3>
-       <p>
-        En la siguiente fase se habilitará el registro, acceso privado y gestión de los datos de cada socio.
-       </p>
-       <div class="notice">
-        <strong>
-         Próximamente.
-        </strong>
-        El acceso real está desactivado hasta configurar un proveedor seguro de autenticación y una política de privacidad.
-       </div>
-       <button aria-disabled="true" class="btn light" disabled="" style="margin-top:18px">
-        Acceso de socios (pendiente)
-       </button>
-      </article>
-      <article class="info">
-       <h3>
-        Donación semestral
-       </h3>
-       <p>
-        El proyecto se financia mediante aportaciones semestrales de los socios. Próximamente se podrá realizar el pago desde una pasarela segura.
-       </p>
-       <div class="notice">
-        <strong>
-         Pagos no activados.
-        </strong>
-        No introduzcas datos bancarios en esta demostración. No se realiza ningún cobro.
-       </div>
-       <button aria-disabled="true" class="btn coral" disabled="" style="margin-top:18px">
-        Donar de forma segura (pendiente)
-       </button>
+      <article class="info"><h3>Área de usuarios y socios</h3><p>Crea una cuenta gratuita, accede a tu perfil y solicita el alta como socio. Las solicitudes deben ser aprobadas por Frutilandia.</p><a class="btn coral" href="socios.html">Registro y acceso de socios</a></article>
+      <article class="info" id="donaciones">
+       <h3>Donación semestral voluntaria</h3>
+       <p>Elige cómo realizar tu aportación. Cada seis meses podrás donar de nuevo; no se realizará ningún cargo automático.</p>
+       <form id="donation-form" class="donation-form">
+        <label for="donation-amount">Importe de la aportación</label>
+        <select id="donation-amount" required>
+         <option value="10">10 €</option><option value="20" selected>20 €</option><option value="30">30 €</option><option value="50">50 €</option>
+        </select>
+        <fieldset>
+         <legend>Forma de pago</legend>
+         <label><input type="radio" name="donation-method" value="transfer" checked> Transferencia bancaria</label>
+         <label><input type="radio" name="donation-method" value="card"> Tarjeta</label>
+         <label><input type="radio" name="donation-method" value="bizum"> Bizum</label>
+        </fieldset>
+        <div id="transfer-details" class="notice" aria-live="polite"></div>
+        <p id="donation-message" role="status" aria-live="polite"></p>
+        <button type="submit" id="donation-submit" class="btn coral">Ver instrucciones de transferencia</button>
+       </form>
+       <p class="donation-small">Las transferencias se comprueban manualmente. Los pagos con tarjeta y Bizum se tramitan mediante Stripe, una vez configurado. Ningún pago se considera confirmado por el mero hecho de volver a esta página.</p>
       </article>
      </div>
     </div>
@@ -368,6 +355,7 @@
   </footer>
   <script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
   </script>
+  <script type="module" src="js/donaciones.js"></script>
   <script type="module" src="js/app.js">
   </script>
  </body>

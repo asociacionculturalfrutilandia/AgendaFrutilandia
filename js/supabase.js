@@ -6,7 +6,7 @@ let session = null;
 try { session = JSON.parse(sessionStorage.getItem(storageKey) || 'null'); } catch { session = null; }
 const api = (path) => `${SUPABASE_URL.replace(/\/$/, '')}${path}`;
 
-async function request(path, { method = 'GET', body, auth = false, prefer } = {}) {
+export async function request(path, { method = 'GET', body, auth = false, prefer } = {}) {
   if (!isConfigured) throw new Error('Configura Supabase en js/config.js.');
   const token = auth ? await accessToken() : SUPABASE_ANON_KEY;
   const response = await fetch(api(path), {
@@ -70,4 +70,36 @@ export async function updateEvent(id, event) {
 }
 export async function deleteEvent(id) {
   return request(`/rest/v1/events?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE', auth: true });
+}
+
+// Área de usuarios y socios. El control de acceso real se aplica en PostgreSQL (RLS).
+export async function signUp(email, password, fullName) {
+  return request('/auth/v1/signup', { method: 'POST', body: { email, password, data: { full_name: fullName } } });
+}
+export async function sendRecovery(email) {
+  return request('/auth/v1/recover', { method: 'POST', body: { email } });
+}
+export async function myProfile() {
+  const rows = await request('/rest/v1/member_profiles?select=*', { auth: true });
+  return rows[0] || null;
+}
+export async function updateMyProfile(fullName) {
+  return request('/rest/v1/member_profiles', { method: 'PATCH', auth: true,
+    body: { full_name: fullName }, prefer: 'return=representation' });
+}
+export async function requestMembership() {
+  return request('/rest/v1/membership_requests', { method: 'POST', auth: true,
+    body: {}, prefer: 'return=representation' });
+}
+export async function myMembershipRequests() {
+  return request('/rest/v1/membership_requests?select=*&order=created_at.desc', { auth: true });
+}
+export async function pendingMembershipRequests() {
+  return request('/rest/v1/membership_requests?select=id,user_id,status,created_at,member_profiles(full_name)&status=eq.pending&order=created_at.asc', { auth: true });
+}
+export async function decideMembership(id, status) {
+  if (!['approved', 'rejected'].includes(status)) throw new Error('Estado inválido');
+  return request(`/rest/v1/membership_requests?id=eq.${encodeURIComponent(id)}`, {
+    method: 'PATCH', auth: true, body: { status }, prefer: 'return=representation'
+  });
 }
