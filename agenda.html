@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#142c40" name="theme-color"/>
+<meta content="Frutilandia: agenda cultural de Murcia y el sureste. Descubre música, teatro, fiestas y actividades en el mapa." name="description"/>
+<title>
+   Frutilandia | Agenda cultural del sureste
+  </title>
+<link href="https://unpkg.com" rel="preconnect"/>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<header class="top">
+<div class="wrap top-inner">
+<a class="brand" href="index.html">
+     Fruti
+     <span>
+      landia
+     </span>
+<small>
+      Agenda cultural del sureste
+     </small>
+</a>
+<nav aria-label="Navegación principal"><a href="index.html">Inicio</a><a href="agenda.html#agenda">Agenda</a><a href="agenda.html#mapa">Mapa</a><a href="identificate.html">Mi cuenta</a></nav>
+</div>
+</header>
+<main>
+
+<section class="section" id="agenda">
+<div class="wrap">
+<h2>
+      Agenda cultural
+     </h2>
+<p class="sub">
+      Busca por fecha, localidad o tipo de actividad. <span id="agenda-note">Los eventos incluidos inicialmente son ejemplos de demostración, no convocatorias verificadas.</span>
+</p>
+<div class="filter-panel">
+<div class="filters">
+<div class="field">
+<label for="q">
+         Buscar evento o municipio
+        </label>
+<input id="q" placeholder="Ej. Cartagena, jazz, teatro..."/>
+</div>
+<div class="field">
+<label for="area">
+         Zona
+        </label>
+<select id="area">
+<option value="">
+          Todas las zonas
+         </option>
+<option>
+          Región de Murcia
+         </option>
+<option>
+          Vega Baja
+         </option>
+<option>
+          Sureste de Albacete
+         </option>
+<option>
+          Noreste de Almería
+         </option>
+</select>
+</div>
+<div class="field">
+<label for="category">
+         Categoría
+        </label>
+<select id="category">
+<option value="">
+          Todas
+         </option>
+<option>
+          Música
+         </option>
+<option>
+          Teatro
+         </option>
+<option>
+          Fiestas
+         </option>
+<option>
+          Patrimonio
+         </option>
+<option>
+          Otros
+         </option>
+</select>
+</div>
+<div class="field">
+<label for="date">
+         Fecha
+        </label>
+<input id="date" type="date"/>
+</div>
+</div>
+<div class="quick">
+<button class="pill active" data-when="all">
+        Todas
+       </button>
+<button class="pill" data-when="today">
+        Hoy
+       </button>
+<button class="pill" data-when="tomorrow">
+        Mañana
+       </button>
+<button class="pill" data-when="weekend">
+        Fin de semana
+       </button>
+<button class="pill" id="clear">
+        Limpiar filtros
+       </button>
+</div>
+</div>
+<div class="results-header">
+<h3 id="count">
+       Eventos
+      </h3>
+<span style="color:var(--muted);font-size:.86rem">
+<span id="agenda-label">Agenda de demostración</span>
+</span>
+</div>
+<div aria-live="polite" class="cards" id="cards">
+</div>
+</div>
+</section>
+<section class="section soft" id="mapa">
+<div class="wrap">
+<h2>
+      La cultura en el mapa
+     </h2>
+<p class="sub">
+      Selecciona un marcador para consultar la actividad. El mapa refleja los filtros de la agenda.
+     </p>
+<div class="map-grid">
+<div class="mapbox">
+<div aria-label="Mapa interactivo de eventos culturales" id="map" role="application">
+</div>
+</div>
+<aside class="aside">
+<h3>
+        Explora el territorio
+       </h3>
+<p>
+        Desde las plazas de Murcia hasta los escenarios de Cartagena, Orihuela, Hellín y Vera: descubre la actividad cultural de nuestro entorno.
+       </p>
+<p>
+<strong id="map-count">
+         0
+        </strong>
+        eventos visibles en el mapa.
+       </p>
+<div class="calendar-row">
+<label for="map-date">
+<strong>
+          Ir a una fecha
+         </strong>
+</label>
+<input id="map-date" type="date"/>
+<button class="btn" id="map-date-button">
+         Buscar
+        </button>
+</div>
+<p style="font-size:.83rem">
+        Mapa de OpenStreetMap. Requiere conexión a Internet.
+       </p>
+</aside>
+</div>
+</div>
+</section>
+
+
+
+</main>
+<footer class="foot">
+<div class="wrap">
+<div>
+<strong>
+      Frutilandia
+     </strong>
+<br/>
+<small>
+      Asociación cultural sin ánimo de lucro · Región de Murcia y alrededores
+     </small>
+</div>
+<small>© Asociación Cultural Frutilandia · Privacidad y aviso legal disponibles en la portada</small>
+</div>
+</footer>
+<script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script src="js/guard.js" type="module"></script>
+<script src="js/app.js" type="module"></script></body>
+</html>

@@ -4,10 +4,10 @@ import { filterEvents, initFilters } from './filtros.js';
 import { initMap, locateEvent, updateMap } from './mapa.js';
 import { initCalendar } from './calendario.js';
 import { isConfigured } from './config.js';
-import { getPublishedEvents } from './supabase.js';
+import { getPublishedEvents, signedIn } from './supabase.js';
 
-let events = sampleEvents;
-let isDemo = true;
+let events = [];
+let isDemo = false;
 function render() {
   const visible = filterEvents(events);
   document.getElementById('count').textContent = `${visible.length} evento${visible.length === 1 ? '' : 's'}${isDemo ? ' de muestra' : ''}`;

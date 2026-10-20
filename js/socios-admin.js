@@ -1,5 +1,5 @@
 import { isConfigured } from './config.js';
-import { signedIn, signIn, signOut, getMyRole, pendingMembershipRequests, decideMembership } from './supabase.js';
+import { signedIn, signIn, signOut, getMyRole, pendingMembershipRequests, decideMembership, getAdminPayments, confirmPayment } from './supabase.js';
 const el=id=>document.getElementById(id);
 const msg=s=>el('review-message').textContent=s;
 let rows=[];
@@ -8,6 +8,7 @@ async function refresh() {
   if (await getMyRole() !== 'admin') { msg('Acceso reservado a administradores.'); el('review-private').hidden=true; return; }
   el('review-login').hidden=true; el('review-private').hidden=false;
   rows=await pendingMembershipRequests();
+  const payments=await getAdminPayments();const paymentList=el('payments-list');paymentList.replaceChildren();for(const pay of payments){const line=document.createElement('div');line.className='admin-row';const label=document.createElement('span');label.textContent=`${pay.user_id} · ${pay.kind==='fee'?'Cuota':'Donación'} · ${pay.amount} € · ${pay.method} · Pendiente`;const btn=document.createElement('button');btn.className='btn light';btn.textContent='Confirmar recepción';btn.onclick=async()=>{if(!confirm('¿Has verificado realmente la recepción de esta aportación?'))return;btn.disabled=true;try{await confirmPayment(pay.id);await refresh();msg('Pago confirmado.')}catch(e){msg(e.message);btn.disabled=false}};line.append(label,btn);paymentList.append(line)}if(!payments.length)paymentList.textContent='Sin aportaciones pendientes.';
   const list=el('review-list'); list.replaceChildren();
   if (!rows.length) { list.textContent='No hay solicitudes pendientes.'; return; }
   for (const row of rows) {

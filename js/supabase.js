@@ -51,7 +51,7 @@ export async function signOut() {
   finally { session = null; sessionStorage.removeItem(storageKey); }
 }
 export async function getPublishedEvents() {
-  return request('/rest/v1/events?select=*&status=eq.published&order=date.asc,time.asc&limit=1000');
+  return request('/rest/v1/events?select=*&status=eq.published&order=date.asc,time.asc&limit=1000', { auth: true });
 }
 export async function getManagedEvents() {
   return request('/rest/v1/events?select=*&order=created_at.desc&limit=1000', { auth: true });
@@ -74,7 +74,7 @@ export async function deleteEvent(id) {
 
 // Área de usuarios y socios. El control de acceso real se aplica en PostgreSQL (RLS).
 export async function signUp(email, password, fullName) {
-  return request('/auth/v1/signup', { method: 'POST', body: { email, password, data: { full_name: fullName } } });
+  return request('/auth/v1/signup', { method: 'POST', body: { email, password, data: { full_name: fullName, privacy_notice_version: '2026-10-v1', privacy_notice_acknowledged: true } } });
 }
 export async function sendRecovery(email) {
   return request('/auth/v1/recover', { method: 'POST', body: { email } });
@@ -103,3 +103,15 @@ export async function decideMembership(id, status) {
     method: 'PATCH', auth: true, body: { status }, prefer: 'return=representation'
   });
 }
+
+export async function getMyUserId(){const token=await accessToken();return JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).sub;}
+export async function getMembershipStatus(){return request('/rest/v1/member_entitlements?select=*', {auth:true});}
+export async function getMyPayments(){return request('/rest/v1/member_payments?select=*&order=created_at.desc',{auth:true});}
+export async function requestPayment(method,kind='fee',amount=10){return request('/rest/v1/member_payments',{method:'POST',auth:true,body:{method,kind,amount},prefer:'return=representation'});}
+export async function getAdminPayments(){return request('/rest/v1/member_payments?select=*&status=eq.pending&order=created_at.asc',{auth:true});}
+export async function getAdminEntitlements(){return request('/rest/v1/member_entitlements?select=*&order=created_at.desc',{auth:true});}
+export async function confirmPayment(id){return request('/rest/v1/rpc/confirm_member_payment',{method:'POST',auth:true,body:{p_payment_id:id}});}
+export async function savePrivacyConsent(whatsapp,phone,news=false){return request('/rest/v1/rpc/save_member_preferences',{method:'POST',auth:true,body:{p_phone:phone||null,p_whatsapp:whatsapp,p_news:news,p_version:'2026-10-v1'}});}
+export async function getMyPreferences(){return request('/rest/v1/member_preferences?select=*',{auth:true});}
+export async function getPublicSlides(){return request('/rest/v1/portal_slides?select=*&order=slot.asc');}
+export async function saveSlide(slot,data){return request('/rest/v1/portal_slides?slot=eq.'+slot,{method:'PATCH',auth:true,body:data,prefer:'return=representation'});}
